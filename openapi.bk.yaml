@@ -1,0 +1,142 @@
+openapi: 3.0.3
+info:
+  title: Mock Data Generation API
+  description: API for generating mock data with specific types and repetition
+  version: 1.0.0
+  contact:
+    name: MockWise
+    url: https://mockwise.dev
+
+servers:
+  - url: https://mockwise.dev/api/v1
+    description: Production server
+  - url: http://127.0.0.1:8000/api/v1
+    description: Local server
+
+security:
+  - bearerAuth: []
+
+paths:
+  /generate:
+    post:
+      summary: Generate mock data
+      description: Generates mock data based on specified types and repetition count
+      operationId: generateMockData
+      tags:
+        - Mock Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateMockRequest'
+      responses:
+        '200':
+          description: Successfully generated mock data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MockDataResponse'
+              example:
+                - first_name: "Talon"
+                  last_name: "Kilback"
+                - first_name: "Amari"
+                  last_name: "Olson"
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error in request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+components:
+  schemas:
+    GenerateMockRequest:
+      type: object
+      required:
+        - repeat
+        - mock
+      properties:
+        repeat:
+          type: integer
+          minimum: 1
+          maximum: 100
+          description: Number of mock data entries to generate
+          example: 2
+        mock:
+          type: object
+          description: Definition of mock data fields and their types
+          additionalProperties:
+            $ref: '#/components/schemas/MockFieldDefinition'
+          example:
+            first_name:
+              type: "firstName"
+            last_name:
+              type: "lastName"
+
+    MockFieldDefinition:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          description: The type of mock data to generate
+          enum:
+            - firstName
+            - lastName
+            # Add other supported types as needed
+
+    MockDataResponse:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: Generated first name
+          example: "Talon"
+        last_name:
+          type: string
+          description: Generated last name
+          example: "Kilback"
+
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message describing what went wrong
+          example: "Invalid request parameters"
+        code:
+          type: string
+          description: Error code for the specific error
+          example: "INVALID_REQUEST"
+
+    ValidationErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: General validation error message
+          example: "The given data was invalid"
+        errors:
+          type: object
+          description: Detailed validation errors for each field
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          example:
+            repeat: ["The repeat field must be a positive integer"]
+            "mock.first_name.type": ["The selected mock type is invalid"]
+
+tags:
+  - name: Mock Generation
+    description: Endpoints for generating mock data

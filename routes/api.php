@@ -3,12 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/test', function (Request $request) {
-    $schema = $request->post('schema');
-    $parser = new \FakeMock\Parser();
-    $output = $parser->parse($schema);
-    return response()->json($output);
-})->middleware('auth:sanctum');
+Route::post('/v1/generate', [\App\Http\Controllers\MockIt::class, 'index'])->middleware('auth:sanctum');
 
 Route::post('/tokens/create', function (Request $request) {
     $request->validate([

@@ -10,7 +10,7 @@ Route::view('dashboard', 'dashboard')
     ->name('dashboard');
 
 Route::view('profile', 'profile')
-    ->middleware(['auth'])
+    ->middleware(['auth', 'verified'])
     ->name('profile');
 
 //Route::post('/tokens/create', function (Request $request) {
