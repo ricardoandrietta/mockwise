@@ -1,0 +1,30 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Mock Data Generation API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/v1/generate": {
+            "post": {
+                "tags": [
+                    "MockIt"
+                ],
+                "summary": "Display a listing of the resource.",
+                "description": "Generates mock data based on specified types and repetition count",
+                "operationId": "8257e90f9d2aa97e54774fca05b95ca8",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "MockIt",
+            "description": "MockIt"
+        }
+    ]
+}
