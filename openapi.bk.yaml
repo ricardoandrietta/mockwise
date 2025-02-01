@@ -4,7 +4,7 @@ info:
   description: API for generating mock data with specific types and repetition
   version: 1.0.0
   contact:
-    name: MockWise
+    name: Mock Wise
     url: https://mockwise.dev
 
 servers:
