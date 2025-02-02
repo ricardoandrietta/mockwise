@@ -26,7 +26,7 @@ class MockIt extends Controller
     public function index(Request $request)
     {
         $schema = $request->post('schema');
-        $parser = new \FakeMock\Parser();
+        $parser = new \MockWise\Parser();
         $output = $parser->parse($schema);
         return response()->json($output);
     }

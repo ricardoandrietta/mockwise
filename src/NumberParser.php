@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FakeMock;
+namespace MockWise;
 
 class NumberParser  {
     protected function getValidTypes(): array

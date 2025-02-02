@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FakeMock;
+namespace MockWise;
 
 use Faker\Factory;
 use Faker\Generator;
@@ -10,13 +10,6 @@ use InvalidArgumentException;
 use JsonException;
 
 class Parser {
-
-    protected Generator $faker;
-
-    public function __construct()
-    {
-        $this->faker = Factory::create();
-    }
 
     /**
      * @param string $schema JSON in a string form
@@ -32,55 +25,74 @@ class Parser {
 
         $decodedSchema = json_decode($schema, true, 512, JSON_THROW_ON_ERROR);
         $this->validate($decodedSchema);
+        $locale = $decodedSchema['locale'] ?? Factory::DEFAULT_LOCALE;
+        $faker = Factory::create($locale);
+        $wrap = false;
+        if (isset($decodedSchema['wrap']) && is_string($decodedSchema['wrap'])) {
+            $wrap = $decodedSchema['wrap'];
+        }
         $repeat = $decodedSchema['repeat'] ?? 1;
+        $singleItem = $decodedSchema['single_item'] ?? true;
+        $showErrors = $decodedSchema['show_errors'] ?? true;
         $output = [];
         for ($i = 0; $i < $repeat; $i++) {
-            $output[$i] = $this->mock($decodedSchema['mock']);
+            $output[$i] = $this->mock($faker, $decodedSchema['mock'], $showErrors);
         }
-        return $output;
+        if ($singleItem && $repeat === 1) {
+            $output = $output[0];
+        }
+        return ($wrap === false) ? $output : [$wrap => $output];
     }
 
     /**
+     * @param Generator $faker
      * @param array $schema
+     * @param bool $showErrors
      *
      * @return array
-     * @throws JsonException|InvalidArgumentException
+     * @throws JsonException
      */
-    protected function mock(array $schema): array
+    protected function mock(Generator $faker, array $schema, bool $showErrors = false): array
     {
+        $errors = [];
         $output = [];
         foreach ($schema as $key => $value) {
             $type = $this->getReplacement($value['type']);
             $params = $value['params'] ?? [];
 
-            if ($type === 'submock' && is_array($params) && !empty($params)) {
+            if ($type === 'mock' && is_array($params) && !empty($params)) {
                 $output[$key] = $this->parse(json_encode($params));
                 continue;
             }
 
             try {
                 //Checking if the type is valid
-                $this->faker->getFormatter($type);
+                $faker->getFormatter($type);
             } catch (\Throwable) {
                 //If not, just skip it
+                $errors[$key] = "'$type' is not a valid type";
                 continue;
             }
 
             try {
                 $output[$key] = match (true) {
-                    count($params) === 1 => $this->faker->$type($params[0]),
-                    count($params) === 2 => $this->faker->$type($params[0], $params[1]),
-                    count($params) === 3 => $this->faker->$type($params[0], $params[1], $params[2]),
-                    default => $this->faker->$type(),
+                    count($params) === 1 => $faker->$type($params[0]),
+                    count($params) === 2 => $faker->$type($params[0], $params[1]),
+                    count($params) === 3 => $faker->$type($params[0], $params[1], $params[2]),
+                    default => $faker->$type(),
                 };
             } catch (\Throwable $throwable) {
                 if ($throwable instanceof InvalidArgumentException) {
                     throw new InvalidArgumentException(
-                        message: "Missing or Invalid parameters for type '$type'",
+                        message:  "Missing or Invalid parameters for type '$type'",
                         previous: $throwable
                     );
                 }
             }
+        }
+
+        if ($showErrors && count($errors) > 0) {
+            $output['errors'] = $errors;
         }
 
         return $output;
@@ -98,6 +110,11 @@ class Parser {
         }
     }
 
+    /**
+     * @param string $type
+     *
+     * @return string
+     */
     protected function getReplacement(string $type): string
     {
         $replacements = [
