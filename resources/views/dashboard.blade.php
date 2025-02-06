@@ -11,6 +11,10 @@
                 <div class="p-6 text-gray-200">
                     {{ __("You're logged in!") }}
                 </div>
+                <div class="p-6">
+                    <x-input-label for="name" :value="__('This is your API Token')" />
+                    <x-text-input id="api_token" name="api_token" type="text" class="mt-1 block w-full" readonly value="{{ \Illuminate\Support\Facades\Auth::user()->tokens->first() }}" />
+                </div>
             </div>
         </div>
     </div>

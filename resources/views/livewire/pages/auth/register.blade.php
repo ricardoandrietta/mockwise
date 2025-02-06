@@ -68,7 +68,11 @@ new #[Layout('layouts.guest')] class extends Component
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-between">
+        <div wire:loading.delay class="mt-6 flex items-center justify-between">
+            <p style="color: #9ca3af">Registering...</p>
+        </div>
+
+        <div wire:loading.remove class="flex items-center justify-between">
             <a class="text-sm text-blue-400 hover:text-blue-300" href="{{ route('login') }}" wire:navigate>
                 {{ __('Already registered?') }}
             </a>

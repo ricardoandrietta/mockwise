@@ -9,9 +9,15 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::view('profile', 'profile')
+Route::get('profile', function (Request $request) {
+    return $request->user();
+})
     ->middleware(['auth', 'verified'])
     ->name('profile');
+
+//Route::view('profile', 'profile')
+//    ->middleware(['auth', 'verified'])
+//    ->name('profile');
 
 //Route::post('/tokens/create', function (Request $request) {
 //    $token = $request->user()->createToken($request->token_name);
