@@ -39,7 +39,7 @@ new class extends Component
         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
     >{{ __('Delete Account') }}</x-danger-button>
 
-    <x-modal name="confirm-user-deletion" :show="$errors->isNotEmpty()" focusable>
+    <x-modalorg name="confirm-user-deletion" :show="$errors->isNotEmpty()" focusable>
         <form wire:submit="deleteUser" class="p-6">
             <h2 class="text-lg font-medium text-white">
                 {{ __('Are you sure you want to delete your account?') }}
@@ -74,5 +74,5 @@ new class extends Component
                 </x-danger-button>
             </div>
         </form>
-    </x-modal>
+    </x-modalorg>
 </section>

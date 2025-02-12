@@ -28,29 +28,18 @@
     <meta property="twitter:image" content="https://mockwise.dev/twitter-image.jpg">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-blue-950">
+<body class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-gray-900">
 <!-- Navigation -->
 <nav class="container mx-auto px-6 py-4">
     <div class="flex items-center justify-between">
         <div class="flex items-center space-x-2">
-            <div class="bg-gray-700 rounded-lg p-2">
-                <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
-                    <div class="text-white text-xl">:)</div>
-                </div>
-            </div>
-            <span class="text-white text-xl font-bold">Mock Wise</span>
+            <x-application-logo />
         </div>
-
-
-            @if (Route::has('login'))
-                <livewire:welcome.navigation />
-            @endif
-
+        <livewire:guest.navigation />
     </div>
 </nav>
 
@@ -66,12 +55,12 @@
             Simple API, powerful schema definitions, and comprehensive data types.
         </p>
         <div class="flex justify-center space-x-4">
-            <button class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg text-lg hover:opacity-90">
+            <a href="{{ route('register') }}" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg text-lg hover:opacity-90 inline-block">
                 Try It Free
-            </button>
-            <button class="border border-gray-500 text-white px-8 py-3 rounded-lg text-lg hover:bg-white/10">
+            </a>
+            <a href="https://docs.mockwise.dev" class="border border-gray-500 text-white px-8 py-3 rounded-lg text-lg hover:bg-white/10 inline-block">
                 View Docs
-            </button>
+            </a>
         </div>
     </div>
 </div>
@@ -121,10 +110,10 @@
     </div>
 </div>
 
-<!-- Code Example Section -->
+<!-- Code Example Section - Simple -->
 <div class="container mx-auto px-6 py-16">
     <div class="bg-white/10 rounded-lg p-8">
-        <h2 class="text-2xl font-bold text-white mb-6">Try it out</h2>
+        <h2 class="text-2xl font-bold text-white mb-6">Try it out - Start simple</h2>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div class="bg-gray-900 p-6 rounded-lg">
                 <p class="text-gray-400 mb-4">Request:</p>
@@ -157,20 +146,71 @@
         </div>
     </div>
 </div>
-
-<!-- Footer -->
-<footer class="container mx-auto px-6 py-8 border-t border-gray-800">
-    <div class="flex flex-col md:flex-row justify-between items-center">
-        <div class="text-gray-400 mb-4 md:mb-0">
-            © <?php echo date('Y'); ?> Mock Wise. All rights reserved.
-        </div>
-        <div class="flex space-x-6">
-            <a href="#" class="text-gray-400 hover:text-white">Terms</a>
-            <a href="#" class="text-gray-400 hover:text-white">Privacy</a>
-            <a href="#" class="text-gray-400 hover:text-white">Contact</a>
+<!-- Code Example Section 2 Complex -->
+<div class="container mx-auto px-6 py-16">
+    <div class="bg-white/10 rounded-lg p-8">
+        <h2 class="text-2xl font-bold text-white mb-6">Try it out - Advanced</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-gray-900 p-6 rounded-lg">
+                <p class="text-gray-400 mb-4">Request:</p>
+                <pre class="text-sm text-gray-300">POST /api/v1/generate
+{
+  "locale": "pt_BR",
+  "show_errors": true,
+  "repeat": 1,
+  "single_item": true,
+  "mock": {
+    "first_name": {
+      "type": "firstName"
+    },
+    "middle_name": {
+      "type": "middleName"
+    },
+    "last_name": {
+      "type": "lastName"
+    },
+    "contact": {
+      "type": "mock",
+      "params": {
+        "locale": "en_CA",
+        "show_errors": false,
+        "repeat": 3,
+        "mock": {
+          "phone_number": {
+            "type": "phoneNumber"
+          }
+        }
+      }
+    }
+  }
+}</pre>
+            </div>
+            <div class="bg-gray-900 p-6 rounded-lg">
+                <p class="text-gray-400 mb-4">Response:</p>
+                <pre class="text-sm text-wrap text-gray-300">{
+    "first_name": "Guilherme",
+    "last_name": "Matias",
+    "contact": [
+        {
+            "phone_number": "1-137-254-3267"
+        },
+        {
+            "phone_number": "1 (257) 692-6254"
+        },
+        {
+            "phone_number": "+1 (553) 720-8126"
+        }
+    ],
+    "errors": {
+        "middle_name": "'middleName' is not a valid type"
+    }
+}</pre>
+            </div>
         </div>
     </div>
-</footer>
+</div>
+
+<x-footer />
 
 <script>
     // Initialize Lucide icons

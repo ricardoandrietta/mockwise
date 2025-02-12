@@ -10,8 +10,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased bg-gradient-to-br from-purple-900 via-blue-900 to-gray-900">
-<div class="min-h-screen">
-    <livewire:layout.navigation />
+<div class="min-h-screen container mx-auto px-6 py-4">
+    @auth
+        <livewire:logged.navigation />
+    @else
+        <livewire:guest.navigation />
+    @endauth
 
     @if (isset($header))
         <header class="container mx-auto px-6 py-4">
@@ -25,5 +29,6 @@
         {{ $slot }}
     </main>
 </div>
+<x-footer />
 </body>
 </html>

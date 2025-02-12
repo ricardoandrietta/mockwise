@@ -32,6 +32,9 @@ class Parser {
             $wrap = $decodedSchema['wrap'];
         }
         $repeat = $decodedSchema['repeat'] ?? 1;
+        if ($repeat > 100) {
+            $repeat = 100;
+        }
         $singleItem = $decodedSchema['single_item'] ?? true;
         $showErrors = $decodedSchema['show_errors'] ?? true;
         $output = [];
