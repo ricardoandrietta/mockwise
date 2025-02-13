@@ -4,7 +4,7 @@ use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\TokenController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('welcom');
+Route::view('/', 'welcome')->name('welcome');
 Route::view('/terms', 'terms')->name('terms');
 Route::view('/privacy', 'privacy')->name('privacy');
 Route::view('/contact', 'contact')->name('contact');
