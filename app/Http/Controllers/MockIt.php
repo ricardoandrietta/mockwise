@@ -3,31 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use OpenApi\Annotations as OA;
 
 class MockIt extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @OA\Info(
-     *     title="Mock Data Generation API",
-     *     version="1.0.0"
-     * )
-     * @OA\Post(
-     *     path="/v1/generate",
-     *     tags={"MockIt"},
-     *     description="Generates mock data based on specified types and repetition count",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Success"
-     *     )
-     * )
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
         $schema = $request->post('schema');
-        $parser = new \MockWise\Parser();
-        $output = $parser->parse($schema);
-        return response()->json($output);
+        if (is_null($schema)) {
+            return response()
+                ->json(
+                    data: ['error' => 'Invalid Argument: `schema` is required'],
+                    status: 422
+                );
+        }
+        try {
+            $parser = new \MockWise\Parser();
+            $output = $parser->parse($schema);
+            return response()->json($output);
+        } catch (\Exception $e) {
+            return response()->json(
+                data: ["error" => "There was a technical error. Please review your schema."],
+                status: 422
+            );
+        }
     }
 }

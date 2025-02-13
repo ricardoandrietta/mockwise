@@ -77,6 +77,8 @@ class Parser {
                 continue;
             }
 
+            //TODO: if "type" = "unixTime", "params": needs to be new DateTime($param[0])
+
             try {
                 $output[$key] = match (true) {
                     count($params) === 1 => $faker->$type($params[0]),

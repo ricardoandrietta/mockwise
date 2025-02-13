@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\MockIt;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/v1/generate', [\App\Http\Controllers\MockIt::class, 'index'])->middleware('auth:sanctum');
+Route::post('/v1/generate', [MockIt::class, 'index'])
+    ->middleware('auth:sanctum');
 Route::post('/v1/event', function (Request $request){
     event(new Verified($request->user()));
 })->middleware('auth:sanctum');
