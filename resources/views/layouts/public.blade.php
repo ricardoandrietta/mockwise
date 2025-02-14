@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,23 +32,30 @@
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-gray-900">
-<!-- Navigation -->
-<nav class="container mx-auto px-6 py-4">
-    <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-            <x-application-logo />
+<body class="relative">
+
+<!-- Background wrapper -->
+<div class="fixed inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-gray-900"></div>
+
+<!-- Content wrapper -->
+<div class="relative flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <x-application-logo />
+            </div>
+            <livewire:guest.navigation />
         </div>
-        <livewire:guest.navigation />
-    </div>
-</nav>
+    </nav>
 
+    <main class="flex-grow container mx-auto px-6 py-16">
+        @yield('content')
+    </main>
 
-<main class="min-h-screen container mx-auto px-6 py-16">
-    @yield('content')
-</main>
-
-<x-footer />
+    <x-footer />
+</div>
 <script>
     // Initialize Lucide icons
     lucide.createIcons();
