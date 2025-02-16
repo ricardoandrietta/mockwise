@@ -23,6 +23,12 @@ Route::post('/token/store', [TokenController::class, 'store'])
     ->middleware(['auth', 'verified'])
     ->name('token.store');
 
+//Route::get('test', function () {
+//    return redirect(\route('login'))
+////        ->with('status', 'Profile updated!');
+//        ->withErrors('Error 001');
+//});
+
 //Route::post('/tokens', [TokenController::class, 'store'])
 //    ->middleware(['auth', 'verified'])
 //    ->name('tokens.store');

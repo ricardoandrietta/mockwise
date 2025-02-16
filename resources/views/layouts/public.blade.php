@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mock Wise - Generate Realistic Mock Data for Development</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Primary Meta Tags -->
     <meta name="title" content="Mock Wise - Generate Realistic Mock Data for Development">
@@ -27,9 +28,9 @@
     <meta property="twitter:description" content="Generate realistic mock data for your applications with our powerful API. Create test data with custom schemas, multiple data types, and secure authentication.">
     <meta property="twitter:image" content="https://mockwise.dev/twitter-image.jpg">
 
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="relative">

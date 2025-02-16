@@ -78,7 +78,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div class="bg-gray-900 p-6 rounded-lg">
                 <p class="text-gray-400 mb-4">Request:</p>
-                <pre class="text-sm text-gray-300">POST /api/v1/generate
+                <pre class="text-sm text-wrap text-gray-300">POST /api/v1/generate
 {
   "repeat": 2,
   "mock": {
@@ -93,7 +93,7 @@
             </div>
             <div class="bg-gray-900 p-6 rounded-lg">
                 <p class="text-gray-400 mb-4">Response:</p>
-                <pre class="text-sm text-gray-300">[
+                <pre class="text-sm text-wrap text-gray-300">[
     {
         "first_name": "Talon",
         "last_name": "Kilback"
@@ -115,7 +115,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div class="bg-gray-900 p-6 rounded-lg">
                 <p class="text-gray-400 mb-4">Request:</p>
-                <pre class="text-sm text-gray-300">POST /api/v1/generate
+                <pre class="text-sm text-wrap text-gray-300">POST /api/v1/generate
 {
   "locale": "pt_BR",
   "show_errors": true,

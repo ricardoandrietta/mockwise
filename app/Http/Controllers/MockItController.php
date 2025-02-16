@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use MockWise\Parser;
 
-class MockIt extends Controller
+class MockItController extends Controller
 {
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $schema = $request->post('schema');
         if (is_null($schema)) {
@@ -21,10 +24,10 @@ class MockIt extends Controller
                 );
         }
         try {
-            $parser = new \MockWise\Parser();
+            $parser = new Parser();
             $output = $parser->parse($schema);
             return response()->json($output);
-        } catch (\Exception $e) {
+        } catch (Exception) {
             return response()->json(
                 data: ["error" => "There was a technical error. Please review your schema."],
                 status: 422

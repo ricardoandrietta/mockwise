@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\SocialLoginController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -29,3 +30,6 @@ Route::middleware('auth')->group(function () {
     Volt::route('confirm-password', 'pages.auth.confirm-password')
         ->name('password.confirm');
 });
+
+Route::get('auth/redirect/{provider}', [SocialLoginController::class, 'redirect'])->name('auth.redirect');
+Route::get('auth/callback/{provider}', [SocialLoginController::class, 'callback'])->name('auth.callback');

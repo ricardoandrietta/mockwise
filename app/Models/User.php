@@ -8,6 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @method static where(string $field, string $value)
+ * @method static User firstWhere(string $field, string $value)
+ * @method static User create(array $data)
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -22,6 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'email_verified_at'
     ];
 
     /**
@@ -45,5 +51,17 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * @param string $provider
+     * @return UserSocialToken|null
+     */
+    public function getSocialToken(string $provider): ?UserSocialToken
+    {
+        return $this
+            ->hasOne(UserSocialToken::class, 'user_id')
+            ->where('provider', $provider)
+            ->firstOr(fn() => null);
     }
 }

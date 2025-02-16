@@ -1,21 +1,28 @@
 <?php
 
-use App\Http\Controllers\MockIt;
+use App\Http\Controllers\MockItController;
+use App\Mail\RegisterTest;
+use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 
-Route::post('/v1/generate', [MockIt::class, 'index'])
+Route::post('/v1/generate', [MockItController::class, 'index'])
     ->middleware('auth:sanctum');
 Route::post('/v1/event', function (Request $request){
     event(new Verified($request->user()));
 })->middleware('auth:sanctum');
+
 Route::post('/v1/mail', function (Request $request){
 
     try {
-        $mail = \Illuminate\Support\Facades\Mail::to($request->user())->send(new \App\Mail\RegisterTest());
+        $mail = Mail::to($request->user())->send(new RegisterTest());
     } catch (Throwable $e) {
-        \Illuminate\Support\Facades\Log::error('Mail sending error:', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+        Log::error('Mail sending error:', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
     }
 
     return view('emails.register', ['name' => 'James']);
@@ -28,11 +35,11 @@ Route::post('/v1/token/create', function (Request $request) {
                            'device_name' => 'required',
                        ]);
 
-    /** @var \App\Models\User $user */
-    $user = \App\Models\User::where('email', $request->email)->first();
+    /** @var User $user */
+    $user = User::where('email', $request->email)->first();
 
-    if (!$user || !\Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
-        throw \Illuminate\Validation\ValidationException::withMessages(
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        throw ValidationException::withMessages(
             [
                 'email' => ['The provided credentials are incorrect.'],
             ]
