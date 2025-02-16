@@ -32,6 +32,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 <body class="relative">
 
@@ -40,13 +41,10 @@
 
 <!-- Content wrapper -->
 <div class="relative flex flex-col min-h-screen">
-
     <!-- Navigation -->
     <nav class="container mx-auto px-6 py-4">
         <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <x-application-logo />
-            </div>
+            <x-application-logo />
             <livewire:guest.navigation />
         </div>
     </nav>
@@ -58,8 +56,13 @@
     <x-footer />
 </div>
 <script>
-    // Initialize Lucide icons
-    lucide.createIcons();
+    document.addEventListener('livewire:navigated', () => {
+        lucide.createIcons();
+    });
+
+    document.addEventListener('livewire:initialized', () => {
+        lucide.createIcons();
+    });
 </script>
 </body>
 </html>
