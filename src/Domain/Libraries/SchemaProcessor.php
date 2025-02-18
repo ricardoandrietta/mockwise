@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace MockWise;
+namespace MockWise\Domain\Libraries;
 
 use Faker\Factory;
 use Faker\Generator;
 use InvalidArgumentException;
 use JsonException;
 
-class Parser {
+class SchemaProcessor {
 
     /**
      * @param string $schema JSON in a string form
@@ -17,7 +17,7 @@ class Parser {
      * @return array
      * @throws JsonException|InvalidArgumentException
      */
-    public function parse(string $schema): array
+    public function process(string $schema): array
     {
         if (empty($schema)) {
             return [];
@@ -64,7 +64,7 @@ class Parser {
             $params = $value['params'] ?? [];
 
             if ($type === 'mock' && is_array($params) && !empty($params)) {
-                $output[$key] = $this->parse(json_encode($params));
+                $output[$key] = $this->process(json_encode($params));
                 continue;
             }
 

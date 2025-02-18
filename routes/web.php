@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\TokenController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('welcome');
@@ -24,6 +25,7 @@ Route::post('/token/store', [TokenController::class, 'store'])
     ->name('token.store');
 
 //Route::get('test', function () {
+//    $user = User::find(7);
 //    return redirect(\route('login'))
 ////        ->with('status', 'Profile updated!');
 //        ->withErrors('Error 001');

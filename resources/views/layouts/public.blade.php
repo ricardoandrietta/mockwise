@@ -38,6 +38,7 @@
 
 <!-- Background wrapper -->
 <div class="fixed inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-gray-900"></div>
+<div class="fixed inset-0 bg-black opacity-20"></div>
 
 <!-- Content wrapper -->
 <div class="relative flex flex-col min-h-screen">
@@ -49,7 +50,7 @@
         </div>
     </nav>
 
-    <main class="flex-grow container mx-auto px-6 py-16">
+    <main class="flex-grow container mx-auto px-6 py-4">
         @yield('content')
     </main>
 

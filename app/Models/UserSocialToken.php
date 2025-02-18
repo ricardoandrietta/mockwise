@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static UserSocialToken create(array $data)
+ * @method static UserSocialToken firstWhere(string $field, mixed $value)
  */
 class UserSocialToken extends Model
 {

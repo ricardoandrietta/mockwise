@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- Hero Section -->
-<div class="container mx-auto px-6 py-16">
+<div class="container mx-auto px-6 py-4">
     <div class="text-center">
         <h1 class="text-5xl font-bold text-white mb-6">
             Generate Realistic Mock Data <br>

@@ -9,23 +9,23 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-gradient-to-br from-purple-900 via-blue-900 to-gray-900">
-<div class="min-h-screen container mx-auto px-6 py-4">
-    @auth
-        <livewire:logged.navigation />
-    @else
-        <livewire:guest.navigation />
-    @endauth
+<body class="relative font-sans">
 
-    @if (isset($header))
-        <header class="container mx-auto px-6 py-4">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                {{ $header }}
-            </div>
-        </header>
-    @endif
+<!-- Background wrapper -->
+<div class="fixed inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-gray-900"></div>
+<div class="fixed inset-0 bg-black opacity-20"></div>
 
-    <main class="container mx-auto px-6 py-4">
+<!-- Content wrapper -->
+<div class="relative flex flex-col min-h-screen">
+    <!-- Navigation -->
+    <nav class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <x-application-logo />
+            <livewire:logged.navigation />
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto px-6 py-4">
         {{ $slot }}
     </main>
 </div>

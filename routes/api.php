@@ -28,27 +28,27 @@ Route::post('/v1/mail', function (Request $request){
     return view('emails.register', ['name' => 'James']);
 })->middleware('auth:sanctum');
 
-Route::post('/v1/token/create', function (Request $request) {
-    $request->validate([
-                           'email' => 'required|email',
-                           'password' => 'required',
-                           'device_name' => 'required',
-                       ]);
-
-    /** @var User $user */
-    $user = User::where('email', $request->email)->first();
-
-    if (!$user || !Hash::check($request->password, $user->password)) {
-        throw ValidationException::withMessages(
-            [
-                'email' => ['The provided credentials are incorrect.'],
-            ]
-        );
-    }
-
-    if (is_null($user->getAttribute('email_verified_at'))) {
-        return 'Your account is not verified.';
-    }
-
-    return $user->createToken($request->device_name)->plainTextToken;
-});
+//Route::post('/v1/token/create', function (Request $request) {
+//    $request->validate([
+//                           'email' => 'required|email',
+//                           'password' => 'required',
+//                           'device_name' => 'required',
+//                       ]);
+//
+//    /** @var User $user */
+//    $user = User::where('email', $request->email)->first();
+//
+//    if (!$user || !Hash::check($request->password, $user->password)) {
+//        throw ValidationException::withMessages(
+//            [
+//                'email' => ['The provided credentials are incorrect.'],
+//            ]
+//        );
+//    }
+//
+//    if (is_null($user->getAttribute('email_verified_at'))) {
+//        return 'Your account is not verified.';
+//    }
+//
+//    return $user->createToken($request->device_name)->plainTextToken;
+//});

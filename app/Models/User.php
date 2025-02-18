@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use MockWise\Domain\Enums\SocialLogin\ProvidersEnum;
 
 /**
  * @method static where(string $field, string $value)
- * @method static User firstWhere(string $field, string $value)
+ * @method static User find(int $id)
+ * @method static User first(int $id)
+ * @method static User firstWhere(string $field, mixed $value)
  * @method static User create(array $data)
  */
 class User extends Authenticatable implements MustVerifyEmail
@@ -54,14 +57,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @param string $provider
+     * @param ProvidersEnum $provider
      * @return UserSocialToken|null
      */
-    public function getSocialToken(string $provider): ?UserSocialToken
+    public function getSocialToken(ProvidersEnum $provider): ?UserSocialToken
     {
         return $this
             ->hasOne(UserSocialToken::class, 'user_id')
-            ->where('provider', $provider)
+            ->where('provider', $provider->value)
             ->firstOr(fn() => null);
     }
 }

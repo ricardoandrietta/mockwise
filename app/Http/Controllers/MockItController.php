@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use MockWise\Parser;
+use MockWise\Domain\Libraries\SchemaProcessor;
 
 class MockItController extends Controller
 {
@@ -24,8 +24,8 @@ class MockItController extends Controller
                 );
         }
         try {
-            $parser = new Parser();
-            $output = $parser->parse($schema);
+            $schemaProcessor = new SchemaProcessor();
+            $output = $schemaProcessor->process($schema);
             return response()->json($output);
         } catch (Exception) {
             return response()->json(

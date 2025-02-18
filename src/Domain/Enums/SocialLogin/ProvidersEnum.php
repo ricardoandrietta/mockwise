@@ -1,6 +1,6 @@
 <?php
 
-namespace MockWise\Domain\SocialLogin;
+namespace MockWise\Domain\Enums\SocialLogin;
 
 enum ProvidersEnum: string
 {
