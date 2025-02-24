@@ -17,7 +17,7 @@
     ></div>
 
     <!-- Modal Content -->
-    <div class="relative z-50 bg-white/10 rounded-lg w-full sm:max-w-md m-2">
+    <div class="relative z-50 bg-gray-900 rounded-lg w-full sm:max-w-md m-2">
         <!-- Header -->
         <div class="flex items-center justify-between p-4">
             <h3 class="text-lg font-semibold text-gray-200">
