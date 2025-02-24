@@ -98,12 +98,13 @@ class StatusController extends Controller
             'message' => 'worked',
             'method' => $method
         ];
+        $header = ($method == 'HEAD') ? $response : [];
         try {
-            return response()->json(data: $response, status: $code);
+            return response()->json(data: $response, status: $code, headers: $header);
         } catch (Throwable $exception) {
             $response['success'] = false;
             $response['message'] = $exception->getMessage();
-            return response()->json(data: $response, status: 500);
+            return response()->json(data: $response, status: 500, headers: $header);
         }
     }
 }
