@@ -12,18 +12,18 @@ use JsonException;
 class SchemaProcessor {
 
     /**
-     * @param string $schema JSON in a string form
+     * @param array|string $schema JSON in a string form
      *
      * @return array
      * @throws JsonException|InvalidArgumentException
      */
-    public function process(string $schema): array
+    public function process(string|array $schema): array
     {
         if (empty($schema)) {
             return [];
         }
 
-        $decodedSchema = json_decode($schema, true, 512, JSON_THROW_ON_ERROR);
+        $decodedSchema = (is_array($schema)) ? $schema : json_decode($schema, true, 512, JSON_THROW_ON_ERROR);
         $this->validate($decodedSchema);
         $locale = $decodedSchema['locale'] ?? Factory::DEFAULT_LOCALE;
         $faker = Factory::create($locale);
