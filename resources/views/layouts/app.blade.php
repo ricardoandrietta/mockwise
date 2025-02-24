@@ -16,7 +16,7 @@
 <div class="fixed inset-0 bg-black opacity-20"></div>
 
 <!-- Content wrapper -->
-<div class="relative flex flex-col min-h-screen">
+<div class="relative flex flex-col min-h-screen z-0">
     <!-- Navigation -->
     <nav class="container mx-auto px-6 py-4">
         <div class="flex items-center justify-between">

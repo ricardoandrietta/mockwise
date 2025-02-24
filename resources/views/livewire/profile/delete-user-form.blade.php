@@ -1,11 +1,12 @@
 <?php
 
 use App\Livewire\Actions\Logout;
+use App\Models\UserSocialToken;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 use Livewire\Volt\Component;
 
-new class extends Component
-{
+new class extends Component {
     public string $password = '';
 
     /**
@@ -16,6 +17,9 @@ new class extends Component
         $this->validate([
             'password' => ['required', 'string', 'current_password'],
         ]);
+
+        PersonalAccessToken::where('tokenable_id', Auth::user()->id)->delete();
+        UserSocialToken::where('user_id', Auth::user()->id)->delete();
 
         tap(Auth::user(), $logout(...))->delete();
 
@@ -35,10 +39,10 @@ new class extends Component
     </header>
 
     <x-danger-button
-        x-data=""
         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
     >{{ __('Delete Account') }}</x-danger-button>
 
+    @teleport('body')
     <x-modalorg name="confirm-user-deletion" :show="$errors->isNotEmpty()" focusable>
         <form wire:submit="deleteUser" class="p-6">
             <h2 class="text-lg font-medium text-white">
@@ -50,7 +54,7 @@ new class extends Component
             </p>
 
             <div class="mt-6">
-                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
+                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only"/>
 
                 <x-text-input
                     wire:model="password"
@@ -61,7 +65,7 @@ new class extends Component
                     placeholder="{{ __('Password') }}"
                 />
 
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                <x-input-error :messages="$errors->get('password')" class="mt-2"/>
             </div>
 
             <div class="mt-6 flex justify-end">
@@ -75,4 +79,5 @@ new class extends Component
             </div>
         </form>
     </x-modalorg>
+    @endteleport
 </section>
