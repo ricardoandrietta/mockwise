@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MockItController;
+use App\Http\Controllers\StatusController;
 use App\Mail\RegisterTest;
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
@@ -13,20 +14,32 @@ use Illuminate\Validation\ValidationException;
 
 Route::post('/v1/generate', [MockItController::class, 'index'])
     ->middleware('auth:sanctum');
-Route::post('/v1/event', function (Request $request){
-    event(new Verified($request->user()));
-})->middleware('auth:sanctum');
 
-Route::post('/v1/mail', function (Request $request){
+Route::any('/v1/status/{code}', [StatusController::class, 'simulateCode'])
+    ->middleware('auth:sanctum')
+    ->whereNumber('code')
+    ->name('status.code');
 
-    try {
-        $mail = Mail::to($request->user())->send(new RegisterTest());
-    } catch (Throwable $e) {
-        Log::error('Mail sending error:', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-    }
 
-    return view('emails.register', ['name' => 'James']);
-})->middleware('auth:sanctum');
+Route::any('/v1/status/random', [StatusController::class, 'generateRandomCode'])
+    ->middleware('auth:sanctum')
+    ->name('status.random');
+
+
+//Tests
+//Route::post('/v1/event', function (Request $request) {
+//    event(new Verified($request->user()));
+//})->middleware('auth:sanctum');
+//
+//Route::post('/v1/mail', function (Request $request) {
+//    try {
+//        $mail = Mail::to($request->user())->send(new RegisterTest());
+//    } catch (Throwable $e) {
+//        Log::error('Mail sending error:', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+//    }
+//
+//    return view('emails.register', ['name' => 'James']);
+//})->middleware('auth:sanctum');
 
 //Route::post('/v1/token/create', function (Request $request) {
 //    $request->validate([
