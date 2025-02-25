@@ -13,16 +13,16 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 
 Route::post('/v1/generate', [MockItController::class, 'index'])
-    ->middleware('auth:sanctum');
+    ->middleware(['auth:sanctum', 'api-analytics']);
 
 Route::any('/v1/status/{code}', [StatusController::class, 'simulateCode'])
-    ->middleware('auth:sanctum')
+    ->middleware(['auth:sanctum', 'api-analytics'])
     ->whereNumber('code')
     ->name('status.code');
 
 
 Route::any('/v1/status/random', [StatusController::class, 'generateRandomCode'])
-    ->middleware('auth:sanctum')
+    ->middleware(['auth:sanctum', 'api-analytics'])
     ->name('status.random');
 
 

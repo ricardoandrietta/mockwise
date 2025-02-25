@@ -32,6 +32,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="424b67a6-abc3-4654-899f-ed901242387c"></script>
 
 </head>
 <body class="relative">
