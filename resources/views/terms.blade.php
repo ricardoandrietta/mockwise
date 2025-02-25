@@ -40,7 +40,7 @@
         <p class="font-bold">6. Logging &amp; Analytics</p>
         <p class="font-thin pb-5">
             We log user activity for analytics purposes to improve the Service. By using Mock Wise, you consent to such
-            data collection in compliance with our Privacy Policy.
+            data collection in compliance with our <a class="underline" href="{{route('privacy')}}">Privacy Policy</a>.
         </p>
         <p class="font-bold">7. No Guarantees on Uptime or Accuracy</p>
         <p class="font-thin pb-5">

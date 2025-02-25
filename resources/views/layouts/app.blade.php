@@ -29,7 +29,8 @@
     <main class="flex-grow container mx-auto px-6 py-4">
         {{ $slot }}
     </main>
+    <x-footer />
 </div>
-<x-footer />
+
 </body>
 </html>

@@ -42,7 +42,7 @@
             We do not sell, rent, or share user data with any third parties.</p>
         <p class="font-bold">7. Data Deletion</p>
         <p class="font-thin pb-5">
-            Users can request data deletion through their dashboard. Upon request, all associated user data will be
+            Users can request data deletion through their profile page. Upon request, all associated user data will be
             permanently removed from our systems.</p>
         <p class="font-bold">8. Communications</p>
         <p class="font-thin pb-5">
