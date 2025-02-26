@@ -19,7 +19,7 @@
                 <a href="https://docs.mockwise.dev" class="block py-2 md:py-0 text-gray-300 hover:text-white">Documentation</a>
                 <a href="{{ route('login') }}" class="block py-2 md:py-0 text-gray-300 hover:text-white">Log in</a>
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="block py-2 md:py-0 text-gray-300 hover:text-white">Get Started</a>
+                    <a href="{{ route('login') }}" class="block py-2 md:py-0 text-gray-300 hover:text-white">Get Started</a>
                 @endif
             @endauth
         </div>
