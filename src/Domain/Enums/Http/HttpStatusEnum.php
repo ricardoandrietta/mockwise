@@ -2,7 +2,7 @@
 
 namespace MockWise\Domain\Enums\Http;
 
-enum HttpStatusesEnum: string
+enum HttpStatusEnum: string
 {
     case STATUS_100 = 'Continue';
     case STATUS_101 = 'Switching Protocols';

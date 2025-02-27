@@ -8,14 +8,37 @@ use Faker\Factory;
 use Faker\Generator;
 use InvalidArgumentException;
 use JsonException;
+use MockWise\Application\Exceptions\MaxDepthReached;
 
-class SchemaProcessor {
+class SchemaProcessor
+{
+
+    protected int $maxNestingLevels = 5;
+    private bool $isMaxDepthValidated = false;
+
+    /**
+     * @return int
+     */
+    public function getMaxNestingLevels(): int
+    {
+        return $this->maxNestingLevels;
+    }
+
+    /**
+     * @param int $maxNestingLevels
+     * @return SchemaProcessor
+     */
+    public function setMaxNestingLevels(int $maxNestingLevels): SchemaProcessor
+    {
+        $this->maxNestingLevels = $maxNestingLevels;
+        return $this;
+    }
 
     /**
      * @param array|string $schema JSON in a string form
-     *
      * @return array
-     * @throws JsonException|InvalidArgumentException
+     * @throws JsonException
+     * @throws MaxDepthReached
      */
     public function process(string|array $schema): array
     {
@@ -25,6 +48,10 @@ class SchemaProcessor {
 
         $decodedSchema = (is_array($schema)) ? $schema : json_decode($schema, true, 512, JSON_THROW_ON_ERROR);
         $this->validate($decodedSchema);
+        if (!$this->isMaxDepthValidated) {
+            $this->analyzeMockDepth($decodedSchema, $this->getMaxNestingLevels());
+            $this->isMaxDepthValidated = true;
+        }
         $locale = $decodedSchema['locale'] ?? Factory::DEFAULT_LOCALE;
         $faker = Factory::create($locale);
         $wrap = false;
@@ -53,7 +80,7 @@ class SchemaProcessor {
      * @param bool $showErrors
      *
      * @return array
-     * @throws JsonException
+     * @throws JsonException|MaxDepthReached
      */
     protected function mock(Generator $faker, array $schema, bool $showErrors = false): array
     {
@@ -89,7 +116,7 @@ class SchemaProcessor {
             } catch (\Throwable $throwable) {
                 if ($throwable instanceof InvalidArgumentException) {
                     throw new InvalidArgumentException(
-                        message:  "Missing or Invalid parameters for type '$type'",
+                        message: "Missing or Invalid parameters for type '$type'",
                         previous: $throwable
                     );
                 }
@@ -129,4 +156,59 @@ class SchemaProcessor {
         return $replacements[$type] ?? $type;
     }
 
+    /**
+     * Analyzes JSON structure to find the deepest nested mock object and its depth
+     *
+     * @param array $data Array to analyze
+     * @return int max nest depth on the mock object
+     * @throws MaxDepthReached
+     */
+    protected function analyzeMockDepth(array $data, int $maxDepthAllowed = 5): int
+    {
+        // Initialize variables to track the deepest path
+        $maxDepth = 0;
+
+        // Start the recursive search
+        $this->searchDeepestMock($data, 0, $maxDepth, $maxDepthAllowed);
+
+        return $maxDepth;
+    }
+
+    /**
+     * Recursively searches for the deepest "mock" object in the data structure
+     *
+     * @param array $data Current data structure to search
+     * @param int $currentDepth Current depth in the data structure
+     * @param int &$maxDepth Reference to the maximum depth found
+     * @throws MaxDepthReached
+     */
+    protected function searchDeepestMock(array $data, int $currentDepth, int &$maxDepth, int $maxDepthAllowed): void
+    {
+        // Check if this is a mock object
+        if (isset($data['type']) && $data['type'] === 'mock') {
+            // We found a mock, so update the current depth
+            $currentDepth++;
+
+            if ($maxDepth > $maxDepthAllowed) {
+                throw new MaxDepthReached("Your current plan only allows $maxDepthAllowed nesting levels.");
+            }
+
+            // If this is the deepest mock so far, update our tracking variables
+            if ($currentDepth > $maxDepth) {
+                $maxDepth = $currentDepth;
+            }
+
+            // If it has params with a mock, continue searching
+            if (isset($data['params']['mock'])) {
+                $this->searchDeepestMock($data['params']['mock'], $currentDepth, $maxDepth, $maxDepthAllowed);
+            }
+        } else {
+            // Not a mock object, continue searching all child elements
+            foreach ($data as $key => $value) {
+                if (is_array($value)) {
+                    $this->searchDeepestMock($value, $currentDepth, $maxDepth, $maxDepthAllowed);
+                }
+            }
+        }
+    }
 }

@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 
 Route::post('/v1/generate', [MockItController::class, 'index'])
-    ->middleware(['auth:sanctum', 'api-analytics']);
+    ->middleware(['auth:sanctum', 'api-analytics'])
+    ->name('mock.generate');
+;
 
 Route::any('/v1/status/{code}', [StatusController::class, 'simulateCode'])
     ->middleware(['auth:sanctum', 'api-analytics'])
