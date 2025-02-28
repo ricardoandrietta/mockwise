@@ -10,7 +10,7 @@ Mock Wise provides a RESTful API that generates fake data based on your JSON sch
 
 Mock Wise uses Bearer Token authentication. To use the API:
 
-1. Register for an account at [Mock Wise website]
+1. Register for an account at [Mock Wise website](https://mockwise.dev)
 2. Obtain your API token from the dashboard
 3. Include the token in your API requests using the Bearer Token authentication header
 
@@ -56,28 +56,56 @@ POST /api/v1/generate
 ### Request Format
 ```json
 {
-  "schema": {
-    "name": {
-      "type": "person.fullName"
-    },
-    "email": {
-      "type": "internet.email"
-    },
-    "address": {
-      "type": "address.fullAddress"
+    "locale": "pt_BR",
+    "show_errors": true,
+    "repeat": 1,
+    "single_item": true,
+    "mock": {
+        "first_name": {
+            "type": "firstName"
+        },
+        "middle_name": {
+            "type": "middleName"
+        },
+        "last_name": {
+            "type": "lastName"
+        },
+        "contact": {
+            "type": "mock",
+            "params": {
+                "locale": "en_CA",
+                "show_errors": false,
+                "repeat": 3,
+                "mock": {
+                    "phone_number": {
+                        "type": "phoneNumber"
+                    }
+                }
+            }
+        }
     }
-  }
 }
 ```
 
 ### Response Example
 ```json
 {
-  "data": {
-    "name": "John Smith",
-    "email": "john.smith@example.com",
-    "address": "123 Main St, New York, NY 10001"
-  }
+    "first_name": "Guilherme",
+    "last_name": "Matias",
+    "contact": [
+        {
+            "phone_number": "1-137-254-3267"
+        },
+        {
+            "phone_number": "1 (257) 692-6254"
+        },
+        {
+            "phone_number": "+1 (553) 720-8126"
+        }
+    ],
+    "errors": {
+        "middle_name": "'middleName' is not a valid type"
+    }
 }
 ```
 
@@ -96,23 +124,9 @@ The API uses standard HTTP response codes:
 - 200: Success
 - 400: Bad Request (invalid schema)
 - 401: Unauthorized (invalid token)
+- 422: Unprocessable Entity
 - 429: Too Many Requests (rate limit exceeded)
 - 500: Internal Server Error
-
-Error responses include detailed messages to help identify and resolve issues:
-
-```json
-{
-  "error": {
-    "code": "INVALID_SCHEMA",
-    "message": "Invalid schema format provided",
-    "details": {
-      "field": "email",
-      "issue": "Unknown type specified"
-    }
-  }
-}
-```
 
 ## Available Locales
 
@@ -197,12 +211,11 @@ Error responses include detailed messages to help identify and resolve issues:
 ## Support
 
 For additional support or questions:
-- Documentation: [Documentation URL]
+- [Documentation](https://docs.mockwise.dev/)
 - Email: support@mockwise.dev
-- API Status: [Status URL]
 
 ## Legal
 
-- Terms of Service: [Terms URL]
-- Privacy Policy: [Privacy URL]
-- License: Proprietary software. All rights reserved.
+- [Terms of Service](https://mockwise.dev/terms)
+- [Privacy Policy](https://mockwise.dev/privacy)
+- License: GPL-3.0
