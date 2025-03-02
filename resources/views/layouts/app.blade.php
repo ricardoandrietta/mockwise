@@ -8,7 +8,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="424b67a6-abc3-4654-899f-ed901242387c"></script>
+    @production
+        <script defer src="https://cloud.umami.is/script.js" data-website-id="{{ env('UMAMI_WEBSITE_ID') }}"></script>
+    @endproduction
 </head>
 <body class="relative font-sans">
 
