@@ -66,7 +66,7 @@ class SchemaProcessor
         $showErrors = $decodedSchema['show_errors'] ?? true;
         $output = [];
         for ($i = 0; $i < $repeat; $i++) {
-            $output[$i] = $this->mock($faker, $decodedSchema['mock'], $showErrors);
+            $output[] = $this->mock($faker, $decodedSchema['mock'], $showErrors);
         }
         if ($singleItem && $repeat === 1) {
             $output = $output[0];
@@ -89,9 +89,10 @@ class SchemaProcessor
         foreach ($schema as $key => $value) {
             $type = $this->getReplacement($value['type']);
             $params = $value['params'] ?? [];
+            $field = $value['field'] ?? "field_{$key}";
 
-            if ($type === 'mock' && is_array($params) && !empty($params)) {
-                $output[$key] = $this->process(json_encode($params));
+            if ($type === 'nested' && is_array($params) && !empty($params)) {
+                $output[$field] = $this->process(json_encode($params));
                 continue;
             }
 
@@ -100,14 +101,14 @@ class SchemaProcessor
                 $faker->getFormatter($type);
             } catch (\Throwable) {
                 //If not, just skip it
-                $errors[$key] = "'$type' is not a valid type";
+                $errors[$field] = "'$type' is not a valid type";
                 continue;
             }
 
             //TODO: if "type" = "unixTime", "params": needs to be new DateTime($param[0])
 
             try {
-                $output[$key] = match (true) {
+                $output[$field] = match (true) {
                     count($params) === 1 => $faker->$type($params[0]),
                     count($params) === 2 => $faker->$type($params[0], $params[1]),
                     count($params) === 3 => $faker->$type($params[0], $params[1], $params[2]),
@@ -185,7 +186,7 @@ class SchemaProcessor
     protected function searchDeepestMock(array $data, int $currentDepth, int &$maxDepth, int $maxDepthAllowed): void
     {
         // Check if this is a mock object
-        if (isset($data['type']) && $data['type'] === 'mock') {
+        if (isset($data['type']) && $data['type'] === 'nested') {
             // We found a mock, so update the current depth
             $currentDepth++;
 

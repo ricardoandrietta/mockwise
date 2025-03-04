@@ -1,0 +1,52 @@
+{
+    "locale": "en_US",
+    "repeat": 1,
+    "show_errors": false,
+    "single_item": false,
+    "wrap": null,
+    "mock": [
+        {
+            "field": "full_name",
+            "type": "name"
+        },
+        {
+            "field": "email",
+            "type": "email"
+        },
+        {
+            "field": "address",
+            "type": "nested",
+            "params": {
+                "repeat": 1,
+                "mock": [
+                    {
+                        "field": "street",
+                        "type": "streetAddress"
+                    },
+                    {
+                        "field": "city",
+                        "type": "city"
+                    },
+                    {
+                        "field": "zipCode",
+                        "type": "zipCode"
+                    },
+                    {
+                        "field": "country",
+                        "type": "country"
+                    }
+                ]
+            }
+        },
+        {
+            "field": "phone",
+            "type": "phoneNumber",
+            "params": []
+        },
+        {
+            "field": "createdAt",
+            "type": "date",
+            "params": ["Y-m-d"]
+        }
+    ]
+}

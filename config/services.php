@@ -48,4 +48,20 @@ return [
         'redirect' => env('GITHUB_CALLBACK_REDIRECT'),
     ],
 
+    'ai' => [
+        'provider' => env('AI_PROVIDER', 'openai'), // 'openai' or 'claude'
+    ],
+
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+        'api_endpoint' => env('OPENAI_API_ENDPOINT', 'https://api.openai.com/v1/chat/completions'),
+        'model' => env('OPENAI_MODEL', 'gpt-4-turbo'),
+    ],
+
+    'anthropic' => [
+        'api_key' => env('ANTHROPIC_API_KEY'),
+        'api_endpoint' => env('ANTHROPIC_API_ENDPOINT', 'https://api.anthropic.com/v1/messages'),
+        'model' => env('ANTHROPIC_MODEL', 'claude-3-haiku-20240307'),
+    ],
+
 ];

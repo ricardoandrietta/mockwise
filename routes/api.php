@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MockItController;
+use App\Http\Controllers\SchemaGeneratorController;
 use App\Http\Controllers\StatusController;
 use App\Mail\RegisterTest;
 use App\Models\User;
@@ -26,6 +27,9 @@ Route::any('/v1/status/{code}', [StatusController::class, 'simulateCode'])
 Route::any('/v1/status/random', [StatusController::class, 'generateRandomCode'])
     ->middleware(['auth:sanctum', 'api-analytics'])
     ->name('status.random');
+
+Route::post('/v1/schema-generator/generate', [SchemaGeneratorController::class, 'generate'])
+    ->name('schema-generator.api.generate');
 
 
 //Tests
