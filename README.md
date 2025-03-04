@@ -60,18 +60,22 @@ POST /api/v1/generate
     "show_errors": true,
     "repeat": 1,
     "single_item": true,
-    "mock": {
-        "first_name": {
+    "mock": [
+        {
+            "field": "first_name",
             "type": "firstName"
         },
-        "middle_name": {
+        {
+            "field": "middle_name",
             "type": "middleName"
         },
-        "last_name": {
+        {
+            "field": "last_name",
             "type": "lastName"
         },
-        "contact": {
-            "type": "mock",
+        {
+            "field": "contact",
+            "type": "nested",
             "params": {
                 "locale": "en_CA",
                 "show_errors": false,
@@ -83,7 +87,7 @@ POST /api/v1/generate
                 }
             }
         }
-    }
+    ]
 }
 ```
 

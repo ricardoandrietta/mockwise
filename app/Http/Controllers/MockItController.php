@@ -22,7 +22,7 @@ class MockItController extends Controller
             return response()
                 ->json(
                     data: ['error' => 'Invalid Argument: `schema` is required'],
-                    status: HttpStatusEnum::STATUS_422
+                    status: 422
                 );
         }
         try {
@@ -34,12 +34,12 @@ class MockItController extends Controller
         } catch (MaxDepthReached $maxDepthReached) {
             return response()->json(
                 data: ["error" => $maxDepthReached->getMessage()],
-                status: HttpStatusEnum::STATUS_409
+                status: 409
             );
-        } catch (Exception) {
+        } catch (Exception $e) {
             return response()->json(
-                data: ["error" => "There was a technical error. Please review your schema."],
-                status: HttpStatusEnum::STATUS_422
+                data: ["error" => "There was a technical error. Please review your schema. {$e->getMessage()}"],
+                status: 422
             );
         }
     }

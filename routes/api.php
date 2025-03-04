@@ -14,21 +14,20 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 
 Route::post('/v1/generate', [MockItController::class, 'index'])
-    ->middleware(['auth:sanctum', 'api-analytics'])
+    ->middleware(['api-analytics'])
     ->name('mock.generate');
-;
 
 Route::any('/v1/status/{code}', [StatusController::class, 'simulateCode'])
-    ->middleware(['auth:sanctum', 'api-analytics'])
+    ->middleware(['api-analytics'])
     ->whereNumber('code')
     ->name('status.code');
 
-
 Route::any('/v1/status/random', [StatusController::class, 'generateRandomCode'])
-    ->middleware(['auth:sanctum', 'api-analytics'])
+    ->middleware(['api-analytics'])
     ->name('status.random');
 
 Route::post('/v1/schema-generator/generate', [SchemaGeneratorController::class, 'generate'])
+    ->middleware(['api-analytics'])
     ->name('schema-generator.api.generate');
 
 

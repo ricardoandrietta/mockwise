@@ -1,0 +1,70 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": [
+        "mock"
+    ],
+    "properties": {
+        "locale": {
+            "type": "string",
+            "description": "The locale for generating localized mock data (e.g., pt_BR, en_US)"
+        },
+        "repeat": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of times to repeat the mock data"
+        },
+        "show_errors": {
+            "type": "boolean",
+            "description": "Whether to display error messages"
+        },
+        "single_item": {
+            "type": "boolean",
+            "description": "Whether to return a single item or an array"
+        },
+        "wrap": {
+            "anyOf": [
+                {
+                    "type": "null"
+                },
+                {
+                    "type": "string",
+                    "description": "Wrapper key for the response data"
+                }
+            ]
+        },
+        "mock": {
+            "type": "array",
+            "description": "Array of field definitions for mock data generation",
+            "items": {
+                "type": "object",
+                "required": [
+                    "field",
+                    "type"
+                ],
+                "properties": {
+                    "field": {
+                        "type": "string",
+                        "description": "The name of the field"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of data to generate (e.g., firstName, lastName, email, nested)"
+                    },
+                    "params": {
+                        "oneOf": [
+                            {
+                                "type": "array",
+                                "description": "Additional parameters for the mock data generator"
+                            },
+                            {
+                                "type": "object",
+                                "description": "Configuration object for nested mock data"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

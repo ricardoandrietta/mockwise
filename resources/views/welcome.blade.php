@@ -78,18 +78,22 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div class="bg-gray-900 p-6 rounded-lg">
                 <p class="text-gray-400 mb-4">Request:</p>
-                <pre class="text-sm text-wrap text-gray-300">POST /api/v1/generate
-{
-  "repeat": 2,
-  "mock": {
-    "first_name": {
-      "type": "firstName"
-    },
-    "last_name": {
-      "type": "lastName"
-    }
-  }
-}</pre>
+                <pre class="text-sm text-wrap text-gray-300">curl 'https://mockwise.dev/api/v1/generate' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--data-urlencode 'schema={
+   "repeat": 2,
+   "mock": [
+     {
+       "field": "first_name",
+       "type": "firstName"
+     },
+     {
+       "field": "last_name",
+       "type": "lastName"
+     }
+   ]
+ }'</pre>
             </div>
             <div class="bg-gray-900 p-6 rounded-lg">
                 <p class="text-gray-400 mb-4">Response:</p>
@@ -115,37 +119,44 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div class="bg-gray-900 p-6 rounded-lg">
                 <p class="text-gray-400 mb-4">Request:</p>
-                <pre class="text-sm text-wrap text-gray-300">POST /api/v1/generate
-{
-  "locale": "pt_BR",
-  "show_errors": true,
-  "repeat": 1,
-  "single_item": true,
-  "mock": {
-    "first_name": {
-      "type": "firstName"
-    },
-    "middle_name": {
-      "type": "middleName"
-    },
-    "last_name": {
-      "type": "lastName"
-    },
-    "contact": {
-      "type": "mock",
-      "params": {
-        "locale": "en_CA",
-        "show_errors": false,
-        "repeat": 3,
-        "mock": {
-          "phone_number": {
-            "type": "phoneNumber"
-          }
-        }
-      }
-    }
-  }
-}</pre>
+                <pre class="text-sm text-wrap text-gray-300">curl 'https://mockwise.dev/api/v1/generate' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--header 'Accept: application/json' \
+--data-urlencode 'schema={
+   "locale": "pt_BR",
+   "show_errors": true,
+   "repeat": 1,
+   "single_item": true,
+   "mock": [
+     {
+       "field": "first_name",
+       "type": "firstName"
+     },
+     {
+       "field": "middle_name",
+       "type": "middleName"
+     },
+     {
+       "field": "last_name",
+       "type": "lastName"
+     },
+     {
+       "field": "contact",
+       "type": "nested",
+       "params": {
+         "locale": "en_CA",
+         "show_errors": false,
+         "repeat": 3,
+         "mock": [
+           {
+             "field": "phone_number",
+             "type": "phoneNumber"
+           }
+         ]
+       }
+     }
+   ]
+ }'</pre>
             </div>
             <div class="bg-gray-900 p-6 rounded-lg">
                 <p class="text-gray-400 mb-4">Response:</p>

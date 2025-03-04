@@ -141,6 +141,10 @@ class SchemaProcessor
         if (!array_key_exists('mock', $input)) {
             throw new InvalidArgumentException('Your schema must contain a "mock" key.');
         }
+
+        $pathToSchema = base_path('src/Services/AIProvider/mock-schema-validation.json');
+        $opisJsonSchemaValidation = new OpisJSONSchemaValidation();
+        $opisJsonSchemaValidation->validate($input, $pathToSchema);
     }
 
     /**
