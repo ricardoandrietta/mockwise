@@ -27,7 +27,7 @@ class AISchemaGeneratorService
         $cacheKey = 'ai_schema_' . md5($userInput);
 
         // Try to get from cache first
-        if (Cache::has($cacheKey)) {
+        if (Cache::has($cacheKey)) {    
             return Cache::get($cacheKey);
         }
 

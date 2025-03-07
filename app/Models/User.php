@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use MockWise\Domain\Enums\SocialLogin\ProvidersEnum;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static where(string $field, string $value)
@@ -66,5 +67,10 @@ class User extends Authenticatable implements MustVerifyEmail
             ->hasOne(UserSocialToken::class, 'user_id')
             ->where('provider', $provider->value)
             ->firstOr(fn() => null);
+    }
+
+    public function schemas(): HasMany
+    {
+        return $this->hasMany(UserSchema::class);
     }
 }

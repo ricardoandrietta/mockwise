@@ -25,14 +25,18 @@ Route::post('/token/store', [TokenController::class, 'store'])
     ->middleware(['auth', 'verified'])
     ->name('token.store');
 
-//Route::get('/schema-generator', [SchemaGeneratorController::class, 'index'])
-//    ->name('schema-generator.index');
-//
-//Route::post('/schema-generator/generate', [SchemaGeneratorController::class, 'generate'])
-//    ->name('schema-generator.generate');
-//
-//Route::get('/schema-generator/preview/{schemaId}', [SchemaGeneratorController::class, 'preview'])
-//    ->name('schema-generator.preview');
+Route::get('/schema', [SchemaGeneratorController::class, 'index'])
+    ->name('schema.index');
+
+Route::get('/schema/list', [SchemaGeneratorController::class, 'list'])
+    ->middleware(['auth', 'verified'])
+    ->name('schema.list');
+
+Route::post('/schema/generate', [SchemaGeneratorController::class, 'generate'])
+    ->name('schema.generate');
+
+Route::get('/schema/preview/{schemaId}', [SchemaGeneratorController::class, 'preview'])
+    ->name('schema.preview');
 
 //Route::get('test', function () {
 //    $user = User::find(7);
